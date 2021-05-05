@@ -63,6 +63,10 @@ class Dashboard extends Component {
     });
   };
 
+  handleDownloadApkClick = () => {
+    window.open("http://bit.ly/Svastha-App", "_blank");
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -102,12 +106,13 @@ class Dashboard extends Component {
                           <Card>
                             <CardContent
                               style={{
-                                background: cardColors.background,
+                                background:
+                                  "linear-gradient(90deg, rgba(249,240,255,1) 0%, rgba(242,217,217,1) 50%)",
                               }}
                             >
                               <Typography
                                 variant="h5"
-                                style={{ color: cardColors.color }}
+                                style={{ color: "#E24047" }}
                               >
                                 {item.name}
                               </Typography>
@@ -139,13 +144,13 @@ class Dashboard extends Component {
                         <CardContent
                           style={{
                             background:
-                              "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(188,198,255,1) 100%)",
+                              "linear-gradient(90deg, rgba(249,240,255,1) 0%, rgba(242,217,217,1) 50%)",
                           }}
                         >
                           <Typography
                             variant="h5"
                             style={{
-                              color: "#364ED8",
+                              color: "#E24047",
                             }}
                           >
                             Crowd Funding
@@ -224,6 +229,15 @@ class Dashboard extends Component {
                       </Typography>
                     </CardContent>
                   </Card>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    style={{ background: "#E24047" }}
+                    onClick={this.handleDownloadApkClick}
+                  >
+                    <span style={{ color: "white" }}>Download APK</span>
+                  </Button>
                 </Grid>
               </Grid>
             </Container>

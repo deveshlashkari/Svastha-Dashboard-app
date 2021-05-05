@@ -21,7 +21,7 @@ const styles = {
   headingFont: {
     fontSize: "20px",
     marginLeft: "10px",
-    color: "#289672",
+    color: "#E24047",
   },
   plasmaDonorText: {
     display: "flex",
@@ -48,31 +48,12 @@ const styles = {
 
     flexWrap: "wrap",
   },
-  plasmaDonorCard: {
+  cardRoot: {
     background:
-      "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(175,255,179,1) 100%)",
+      "linear-gradient(90deg, rgba(249,240,255,1) 0%, rgba(242,217,217,1) 50%)",
     alignItems: "center",
   },
-  hospitalCard: {
-    background:
-      "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(250,180,205,1) 100%)",
-    alignItems: "center",
-  },
-  oxygenCard: {
-    background:
-      "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(250,246,180,1) 100%)",
-    alignItems: "center",
-  },
-  medicineCard: {
-    background:
-      "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(240,180,250,1) 100%)",
-    alignItems: "center",
-  },
-  volunteerCard: {
-    background:
-      "linear-gradient(90deg, rgba(240,244,240,1) 8%, rgba(118,203,255,1) 100%)",
-    alignItems: "center",
-  },
+
   cardSecondaryText: {
     color: "#666A69",
     marginLeft: "35px",
@@ -86,18 +67,22 @@ class Contribute extends React.Component {
     return (
       <>
         <Navbar />
-        <Container component="main" maxWidth="md" style={{ marginTop: "20px" }}>
+        <Container
+          component="main"
+          maxWidth="md"
+          style={{ marginTop: "20px", marginBottom: "85px" }}
+        >
           <CssBaseline />
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Link href="/plasmadonor/new">
                 <a>
                   <Card>
-                    <CardContent className={classes.plasmaDonorCard}>
+                    <CardContent className={classes.cardRoot}>
                       <div className={classes.plasmaDonorText}>
                         <AddBoxIcon
                           style={{
-                            color: "#289672",
+                            color: "#E24047",
                             marginTop: "11px",
                             marginBottom: "-9px",
                           }}
@@ -114,25 +99,25 @@ class Contribute extends React.Component {
                 </a>
               </Link>
             </Grid>
+
             <Grid item xs={12}>
-              <Link href="/hospitals/new">
+              <Link href="/oxygensupplier/new">
                 <a>
-                  {" "}
                   <Card>
-                    <CardContent className={classes.hospitalCard}>
-                      <div className={classes.hospitalText}>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
                         <AddBoxIcon
                           style={{
-                            color: "#BE255D",
+                            color: "#E24047",
                             marginTop: "11px",
                             marginBottom: "-9px",
                           }}
                         />
                         <Typography
                           className={classes.headingFont}
-                          style={{ color: "#BE255D" }}
+                          style={{ color: "#E24047" }}
                         >
-                          Hospital & Beds Availability
+                          Oxygen for Homes Form
                         </Typography>
                       </div>
                       <span className={classes.cardSecondaryText}>
@@ -144,23 +129,191 @@ class Contribute extends React.Component {
               </Link>
             </Grid>
             <Grid item xs={12}>
-              <Link href="/oxygensupplier/new">
+              <Link href="/mentalhealth/new">
                 <a>
                   <Card>
-                    <CardContent className={classes.oxygenCard}>
+                    <CardContent className={classes.cardRoot}>
                       <div className={classes.oxygenText}>
                         <AddBoxIcon
                           style={{
-                            color: "#FF8F00",
+                            color: "#E24047",
                             marginTop: "11px",
                             marginBottom: "-9px",
                           }}
                         />
                         <Typography
                           className={classes.headingFont}
-                          style={{ color: "#FF8F00" }}
+                          style={{ color: "#E24047" }}
                         >
-                          Oxygen for Homes Form
+                          Mental Health Counselling Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/homeconsultation/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Home Consultation Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/hostel/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Hostel to Quarantine Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/funeralservices/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Funeral Services Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/bloodbank/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Blood Bank Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/testinganddiagnostics/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.oxygenText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Testing & Diaganostics Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/hospitals/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.medicineText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Hospitals & Beds Form
                         </Typography>
                       </div>
                       <span className={classes.cardSecondaryText}>
@@ -175,20 +328,20 @@ class Contribute extends React.Component {
               <Link href="/medicine/new">
                 <a>
                   <Card>
-                    <CardContent className={classes.medicineCard}>
+                    <CardContent className={classes.cardRoot}>
                       <div className={classes.medicineText}>
                         <AddBoxIcon
                           style={{
-                            color: "#7E22CE",
+                            color: "#E24047",
                             marginTop: "11px",
                             marginBottom: "-9px",
                           }}
                         />
                         <Typography
                           className={classes.headingFont}
-                          style={{ color: "#7E22CE" }}
+                          style={{ color: "#E24047" }}
                         >
-                          Medicine/Ambulance Form
+                          Medicine Form
                         </Typography>
                       </div>
                       <span className={classes.cardSecondaryText}>
@@ -203,24 +356,80 @@ class Contribute extends React.Component {
               <Link href="/volunteer/new">
                 <a>
                   <Card>
-                    <CardContent className={classes.volunteerCard}>
+                    <CardContent className={classes.cardRoot}>
                       <div className={classes.volunteerText}>
                         <AddBoxIcon
                           style={{
-                            color: "#1DA1F2",
+                            color: "#E24047",
                             marginTop: "11px",
                             marginBottom: "-9px",
                           }}
                         />
                         <Typography
                           className={classes.headingFont}
-                          style={{ color: "#1DA1F2" }}
+                          style={{ color: "#E24047" }}
                         >
                           Apply as a Volunteer
                         </Typography>
                       </div>
                       <span className={classes.cardSecondaryText}>
                         Click here to apply
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/ambulance/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.volunteerText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Ambulance Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
+                      </span>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
+            </Grid>
+            <Grid item xs={12}>
+              <Link href="/foodservices/new">
+                <a>
+                  <Card>
+                    <CardContent className={classes.cardRoot}>
+                      <div className={classes.volunteerText}>
+                        <AddBoxIcon
+                          style={{
+                            color: "#E24047",
+                            marginTop: "11px",
+                            marginBottom: "-9px",
+                          }}
+                        />
+                        <Typography
+                          className={classes.headingFont}
+                          style={{ color: "#E24047" }}
+                        >
+                          Food Services Form
+                        </Typography>
+                      </div>
+                      <span className={classes.cardSecondaryText}>
+                        Click here to add
                       </span>
                     </CardContent>
                   </Card>
