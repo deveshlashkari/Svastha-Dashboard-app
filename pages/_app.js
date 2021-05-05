@@ -48,11 +48,7 @@ function MyApp({ Component, pageProps }) {
   const { value: isDark } = useDarkMode(false);
   const themeConfig = isDark ? darkTheme : lightTheme;
 
-  return (
-    <ThemeProvider theme={themeConfig}>
-      <Component {...pageProps} />
-    </ThemeProvider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;
