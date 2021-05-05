@@ -16,15 +16,18 @@ import {
   Toolbar,
   IconButton,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { useRouter } from "next/router";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withRouter } from "next/router";
 import Link from "next/link";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 
-const useStyles = makeStyles((theme) => ({
+import { createMedicalStore } from "../../../Services/API";
+
+const styles = {
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: "80px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -65,214 +68,246 @@ const useStyles = makeStyles((theme) => ({
   selected: {},
 
   root: { flexGrow: 1 },
-}));
+};
+class MedicineSupplierForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default function MedicinSupplierForm() {
-  const classes = useStyles();
-  const router = useRouter();
+    this.state = {
+      name: "",
+      phone: "",
+      address: "",
+      bloodType: "",
+    };
+  }
 
-  const redirectToHome = () => {
-    router.push("/");
+  handleNameChange = (event) => {
+    this.setState({
+      name: event.target.value,
+    });
   };
-  return (
-    <>
-      {/* <Navbar color="white" /> */}
-      <div className={classes.root}>
-        <AppBar position="sticky" style={{ backgroundColor: "white" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={redirectToHome}
-            >
-              <KeyboardBackspaceIcon
-                style={{
-                  color: "#E24047",
-                  height: "35px",
-                  width: "35px",
-                  marginTop: "5px",
-                }}
-              />
-            </IconButton>
-            <div style={{ flexGrow: 1 }}>
-              <img src="/logo.jpg" style={{ height: "50px" }} />
-            </div>
-            <Link href="/medicine/all">
-              <a>
-                <span
+  handlePhoneChange = (event) => {
+    this.setState({
+      phone: event.target.value,
+    });
+  };
+  handleAddressChange = (event) => {
+    this.setState({
+      address: event.target.value,
+    });
+  };
+  handleBloodTypeChange = (event) => {
+    this.setState({
+      bloodType: event.target.value,
+    });
+  };
+
+  saveBloodBankDetails = () => {
+    if (
+      this.state.name === "" ||
+      this.state.phone === "" ||
+      this.state.address === ""
+    ) {
+      toast.error("Please fill all the fields", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      let body = {
+        medical_store: {
+          provider_type: 0,
+          emergency_category_id: "14",
+          basic_info_attributes: {
+            name: this.state.name,
+            contact: this.state.phone,
+            latitude: 1231.45,
+            longitude: 876.45,
+            address: this.state.address,
+          },
+        },
+      };
+
+      createMedicalStore(body).then((data) => {
+        if (data.data.status === "success") {
+          toast.success(data.data.message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            this.props.router.push("/");
+          }, 3000);
+        } else {
+          toast.error(data.data.message, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      });
+    }
+  };
+
+  redirectToHome = () => {
+    this.props.router.push("/");
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <>
+        {/* <Navbar color="white" /> */}
+        <div className={classes.root}>
+          <AppBar position="sticky" style={{ backgroundColor: "white" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={this.redirectToHome}
+              >
+                <KeyboardBackspaceIcon
                   style={{
-                    fontWeight: "normal",
                     color: "#E24047",
-                    textDecoration: "underline",
+                    height: "35px",
+                    width: "35px",
+                    marginTop: "5px",
                   }}
+                />
+              </IconButton>
+              <div style={{ flexGrow: 1 }}>
+                <img src="/logo.jpg" style={{ height: "50px" }} />
+              </div>
+            </Toolbar>
+          </AppBar>
+        </div>
+        <Container component="main" maxWidth="lg">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Typography variant="h3">Medications Form</Typography>
+            <Typography
+              style={{
+                borderBottom: "2px solid #E24047",
+                marginBottom: "15px",
+              }}
+            >
+              Share details of medicines in your city
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
+                  value={this.state.name}
+                  onChange={this.handleNameChange}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="Phone"
+                  variant="outlined"
+                  fullWidth
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
+                  value={this.state.phone}
+                  onChange={this.handlePhoneChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="Address"
+                  variant="outlined"
+                  fullWidth
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
+                  value={this.state.address}
+                  onChange={this.handleAddressChange}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className={classes.submitButton}
+                  onClick={this.saveBloodBankDetails}
                 >
-                  View all Medicine/Injection/Ambulance Suppliers
-                </span>
-              </a>
-            </Link>
-          </Toolbar>
-        </AppBar>
-      </div>
-      <Container component="main" maxWidth="lg">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography variant="h3" style={{ textAlign: "center" }}>
-            Add a COVID-19 Medicine/Injection supplier/Ambulance Contact
-          </Typography>
-          <Typography
-            style={{ borderBottom: "2px solid #E24047", marginBottom: "15px" }}
-          >
-            Fill this form to add the contact of a COVID-19
-            Medicine/Injections/Ambulance supplier
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="outlined-basic"
-                label="Medicine/Injection/Ambulance Name"
-                variant="outlined"
-                placeholder="Remdesivir, Fabiflu, Ambulance, Any Other"
-                fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Phone"
-                required
-                variant="outlined"
-                fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Alternate Phone"
-                variant="outlined"
-                fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Address"
-                variant="outlined"
-                fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                required
-                label="City"
-                variant="outlined"
-                fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Grid container direction="row">
-                <Grid item>
-                  <Checkbox />
-                </Grid>
-                <Grid item>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      marginTop: "13px",
-                    }}
-                  >
-                    I hereby agree to the Terms and Conditions of sharing this
-                    data publicly on this website to the best of my knowledge to
-                    help the people who need it.
-                  </Typography>
-                </Grid>
+                  <span style={{ fontSize: "18px", letterSpacing: "2px" }}>
+                    Submit
+                  </span>
+                </Button>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                fullWidth
-                variant="contained"
-                className={classes.submitButton}
-              >
-                <span style={{ fontSize: "18px", letterSpacing: "2px" }}>
-                  Submit
-                </span>
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      </Container>
-    </>
-  );
+          </div>
+        </Container>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </>
+    );
+  }
 }
+
+export default withStyles(styles)(withRouter(MedicineSupplierForm));

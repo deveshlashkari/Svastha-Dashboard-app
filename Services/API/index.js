@@ -17,3 +17,44 @@ export const savePlasmaDonor = (body) => {
     console.error();
   }
 };
+
+export const saveBloodBank = (body) => {
+  try {
+    return axios.post(`${Constants.BASE_URL}/blood_banks`, body);
+  } catch (error) {
+    console.error();
+  }
+};
+
+export const createMedicalStore = (body) => {
+  try {
+    return axios.post(`${Constants.BASE_URL}/create_medical_store`, body);
+  } catch (error) {
+    console.error();
+  }
+};
+export const saveHospitalDetail = (body) => {
+  try {
+    return axios.post(`${Constants.BASE_URL}/hospital_details`, body);
+  } catch (error) {
+    console.error();
+  }
+};
+
+export const saveEmergencyContact = (body) => {
+  try {
+    return axios.post(`${Constants.BASE_URL}/emergency_contacts`, body);
+  } catch (error) {
+    console.error();
+  }
+};
+
+export const getPlasmaDonors = () => {
+  try {
+    return axios.get(
+      `${Constants.BASE_URL}/get_plasma_donor_for_emergency_contact`
+    );
+  } catch (error) {
+    console.error();
+  }
+};
