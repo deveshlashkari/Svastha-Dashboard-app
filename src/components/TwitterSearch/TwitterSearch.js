@@ -181,7 +181,7 @@ export default function TwitterSearch() {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormGroup row>
+            <FormGroup row style={{ justifyContent: "center" }}>
               <FormControlLabel
                 control={
                   <Checkbox

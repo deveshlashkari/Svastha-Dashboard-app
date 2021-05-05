@@ -22,8 +22,8 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import { saveHospitalDetail } from "../../../Services/API";
+
+import { saveBloodBank } from "../../../Services/API";
 
 const styles = {
   paper: {
@@ -69,26 +69,21 @@ const styles = {
 
   root: { flexGrow: 1 },
 };
-
-class HospitalContactForm extends React.Component {
+class BloodBankForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hospitalName: "",
+      name: "",
       phone: "",
       address: "",
-      totalBeds: "",
-      icuBedsCount: "",
-      isolationBeds: "",
-      oxygenBeds: "",
-      hospitalType: "",
+      bloodType: "",
     };
   }
 
-  handleHospitalName = (event) => {
+  handleNameChange = (event) => {
     this.setState({
-      hospitalName: event.target.value,
+      name: event.target.value,
     });
   };
   handlePhoneChange = (event) => {
@@ -101,42 +96,18 @@ class HospitalContactForm extends React.Component {
       address: event.target.value,
     });
   };
-  handleHospitalTypeChange = (event) => {
+  handleBloodTypeChange = (event) => {
     this.setState({
-      hospitalType: event.target.value,
-    });
-  };
-  handleTotalBedsChange = (event) => {
-    this.setState({
-      totalBeds: event.target.value,
-    });
-  };
-  handleIcuBedsChange = (event) => {
-    this.setState({
-      icuBedsCount: event.target.value,
-    });
-  };
-  handleOxygenBedsChange = (event) => {
-    this.setState({
-      oxygenBeds: event.target.value,
-    });
-  };
-  handleIsolationBedsChange = (event) => {
-    this.setState({
-      isolationBeds: event.target.value,
+      bloodType: event.target.value,
     });
   };
 
-  saveHospitalDetails = () => {
+  saveBloodBankDetails = () => {
     if (
-      this.state.hospitalName === "" ||
+      this.state.name === "" ||
       this.state.phone === "" ||
       this.state.address === "" ||
-      this.state.hospitalType === "" ||
-      this.state.totalBeds === "" ||
-      this.state.icuBedsCount === "" ||
-      this.state.oxygenBeds === "" ||
-      this.state.isolationBeds === ""
+      this.state.bloodType === ""
     ) {
       toast.error("Please fill all the fields", {
         position: "top-center",
@@ -149,15 +120,11 @@ class HospitalContactForm extends React.Component {
       });
     } else {
       let body = {
-        hospital_detail: {
-          hospital_type: this.state.hospitalType,
-          icu_bed_count: this.state.icuBedsCount,
-          oxygen_bed_count: this.state.oxygenBeds,
-          isolation_bed_count: this.state.isolationBeds,
-          total_bed_count: this.state.totalBeds,
-          emergency_category_id: "15",
+        blood_bank: {
+          bank_type: this.state.bloodType,
+          emergency_category_id: "13",
           basic_info_attributes: {
-            name: this.state.hospitalName,
+            name: this.state.name,
             contact: this.state.phone,
             latitude: 1231.45,
             longitude: 876.45,
@@ -166,7 +133,7 @@ class HospitalContactForm extends React.Component {
         },
       };
 
-      saveHospitalDetail(body).then((data) => {
+      saveBloodBank(body).then((data) => {
         if (data.data.status === "success") {
           toast.success(data.data.message, {
             position: "top-center",
@@ -231,21 +198,21 @@ class HospitalContactForm extends React.Component {
         <Container component="main" maxWidth="lg">
           <CssBaseline />
           <div className={classes.paper}>
-            <Typography variant="h3">Hospitals & Beds</Typography>
+            <Typography variant="h3">Blood Bank Form</Typography>
             <Typography
               style={{
                 borderBottom: "2px solid #E24047",
                 marginBottom: "15px",
               }}
             >
-              Share details of hospitals & beds in your city
+              Share details of blood bank in your city
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   required
                   id="outlined-basic"
-                  label="Hospital Name"
+                  label="Name"
                   variant="outlined"
                   fullWidth
                   InputLabelProps={{
@@ -261,15 +228,15 @@ class HospitalContactForm extends React.Component {
                       notchedOutline: classes.notchedOutline,
                     },
                   }}
-                  value={this.state.hospitalName}
-                  onChange={this.handleHospitalName}
+                  value={this.state.name}
+                  onChange={this.handleNameChange}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
-                  label="Hospital Phone"
+                  label="Phone"
                   variant="outlined"
                   fullWidth
                   InputLabelProps={{
@@ -312,32 +279,13 @@ class HospitalContactForm extends React.Component {
                   onChange={this.handleAddressChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Hospital Type
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    label="discharge"
-                    value="select"
-                    value={this.state.hospitalType}
-                    onChange={this.handleHospitalTypeChange}
-                  >
-                    <MenuItem value="select">
-                      <em>Please select</em>
-                    </MenuItem>
-                    <MenuItem value="government">Government</MenuItem>
-                    <MenuItem value="Private">Private</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
-                  label="Total Beds Count"
+                  label="Type of Blood"
                   variant="outlined"
+                  placeholder="Plasma, Blood, Platelets"
                   fullWidth
                   InputLabelProps={{
                     classes: {
@@ -352,85 +300,17 @@ class HospitalContactForm extends React.Component {
                       notchedOutline: classes.notchedOutline,
                     },
                   }}
-                  value={this.state.totalBeds}
-                  onChange={this.handleTotalBedsChange}
+                  value={this.state.bloodType}
+                  onChange={this.handleBloodTypeChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="outlined-basic"
-                  label="ICU Beds Count"
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused,
-                    },
-                  }}
-                  InputProps={{
-                    classes: {
-                      root: classes.cssOutlinedInput,
-                      focused: classes.cssFocused,
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  value={this.state.icuBedsCount}
-                  onChange={this.handleIcuBedsChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="outlined-basic"
-                  label="Oxygen Beds"
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused,
-                    },
-                  }}
-                  InputProps={{
-                    classes: {
-                      root: classes.cssOutlinedInput,
-                      focused: classes.cssFocused,
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  value={this.state.oxygenBeds}
-                  onChange={this.handleOxygenBedsChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="outlined-basic"
-                  label="Isolation Beds"
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.cssLabel,
-                      focused: classes.cssFocused,
-                    },
-                  }}
-                  InputProps={{
-                    classes: {
-                      root: classes.cssOutlinedInput,
-                      focused: classes.cssFocused,
-                      notchedOutline: classes.notchedOutline,
-                    },
-                  }}
-                  value={this.state.isolationBeds}
-                  onChange={this.handleIsolationBedsChange}
-                />
-              </Grid>
+
               <Grid item xs={12}>
                 <Button
                   fullWidth
                   variant="contained"
                   className={classes.submitButton}
-                  onClick={this.saveHospitalDetails}
+                  onClick={this.saveBloodBankDetails}
                 >
                   <span style={{ fontSize: "18px", letterSpacing: "2px" }}>
                     Submit
@@ -456,4 +336,4 @@ class HospitalContactForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(HospitalContactForm));
+export default withStyles(styles)(withRouter(BloodBankForm));
