@@ -15,8 +15,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import BootstrapTable from "react-bootstrap-table-next";
-
+import Loader from "react-loader-spinner";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { getPlasmaDonors } from "../../../Services/API";
 import { withRouter } from "next/router";
@@ -37,11 +36,36 @@ class PlasmaDonors extends React.Component {
 
     this.state = {
       donorsList: [],
+      isLoading: true,
     };
   }
 
   componentDidMount = () => {
-    getPlasmaDonors().then((data) => console.log(data));
+    getPlasmaDonors().then((data) => {
+      if (data.data.status === "success") {
+        let tempArr = [];
+        data.data.plasma_donors.map((_data) => {
+          tempArr.push({
+            id: _data.id,
+            name: _data.name,
+            email: _data.email,
+            contact: _data.contact,
+            address: _data.address,
+            age: _data.age,
+            gender: _data.gender,
+            bloodGroup: _data.blood_group,
+            aadharNumber: _data.adhar_card,
+            dateOfRecovery:
+              _data.date_of_recovery !== null ? _data.date_of_recovery : "N/A",
+            status: _data.status,
+          });
+        });
+        this.setState({
+          donorsList: tempArr,
+          isLoading: false,
+        });
+      }
+    });
   };
 
   redirectToHome = () => {
@@ -49,7 +73,20 @@ class PlasmaDonors extends React.Component {
   };
   render() {
     const { classes } = this.props;
-    return (
+    return this.state.isLoading ? (
+      <Loader
+        type="ThreeDots"
+        color="#E24047"
+        height={200}
+        width={200}
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+    ) : (
       <>
         <div className={classes.root}>
           <AppBar position="sticky" style={{ backgroundColor: "white" }}>
@@ -107,30 +144,20 @@ class PlasmaDonors extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>Arjun Mehta</TableCell>
-                  <TableCell>arjunmehta@gmail.com</TableCell>
-                  <TableCell>+917828282828</TableCell>
-                  <TableCell>Navlakha, Indore</TableCell>
-                  <TableCell>23</TableCell>
-                  <TableCell>Male</TableCell>
-                  <TableCell>B+</TableCell>
-                  <TableCell>1319192932</TableCell>
-                  <TableCell>12th May 2021</TableCell>
-                  <TableCell>Pending</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lakhan Kumawat</TableCell>
-                  <TableCell>lakhan12@gmail.com</TableCell>
-                  <TableCell>+9182832423</TableCell>
-                  <TableCell>Gulabbagh, Indore</TableCell>
-                  <TableCell>35</TableCell>
-                  <TableCell>Male</TableCell>
-                  <TableCell>AB+</TableCell>
-                  <TableCell>131919232932</TableCell>
-                  <TableCell>12th August 2021</TableCell>
-                  <TableCell>Pending</TableCell>
-                </TableRow>
+                {this.state.donorsList.map((data) => (
+                  <TableRow>
+                    <TableCell>{data.name}</TableCell>
+                    <TableCell>{data.email}</TableCell>
+                    <TableCell>{data.contact}</TableCell>
+                    <TableCell>{data.address}</TableCell>
+                    <TableCell>{data.age}</TableCell>
+                    <TableCell>{data.gender}</TableCell>
+                    <TableCell>{data.bloodGroup}</TableCell>
+                    <TableCell>{data.aadharNumber}</TableCell>
+                    <TableCell>{data.dateOfRecovery}</TableCell>
+                    <TableCell>{data.status}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

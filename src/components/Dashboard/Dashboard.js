@@ -39,6 +39,7 @@ class Dashboard extends Component {
     this.state = {
       categories: [],
       isLoading: true,
+      categoryCount: [],
     };
   }
 
@@ -49,13 +50,112 @@ class Dashboard extends Component {
       if (networkCallData.status === "success") {
         try {
           networkCallData.emergency_categories.map((_data) => {
-            tempArr.push({
-              id: _data.id,
-              name: _data.name,
-              updatedAt: _data.updated_at,
-            });
+            if (_data.name === "Plasma Bank") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/plasmadonor/all",
+              });
+            }
+            if (_data.name === "Blood Bank") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/bloodbank/all",
+              });
+            }
+            if (_data.name === "Hospitals and Beds") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/hospitals/all",
+              });
+            }
+            if (_data.name === "Oxygen for Homes") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/oxygensupplier/all",
+              });
+            }
+            if (_data.name === "Mental Health Counseling") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/mentalhealth/all",
+              });
+            }
+            if (_data.name === "Home Consulation") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/homeconsultation/all",
+              });
+            }
+            if (_data.name === "Hostel to Quarantine") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/hostel/all",
+              });
+            }
+            if (_data.name === "Funeral Services") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/funeralservices/all",
+              });
+            }
+            if (_data.name === "Testing and Diagnostics") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/testinganddiagnostics/all",
+              });
+            }
+            if (_data.name === "Ambulance") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/ambulance/all",
+              });
+            }
+            if (_data.name === "Food Services") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/foodservices/all",
+              });
+            }
+            if (_data.name === "Medications") {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                updatedAt: _data.updated_at,
+                route: "/medicine/all",
+              });
+            }
           });
-          this.setState({ categories: tempArr, isLoading: false });
+          let tempArrNew = {};
+
+          console.log(data.data.emergency_category_count);
+
+          this.setState({
+            categories: tempArr,
+            categoryCount: data.data.emergency_category_count,
+            isLoading: false,
+          });
         } catch (error) {
           console.error();
         }
@@ -100,7 +200,7 @@ class Dashboard extends Component {
                   let cardColors = randomBackgroundGenerator();
                   return (
                     <Grid item xs={12} sm={6}>
-                      <Link href="/plasmadonor/all">
+                      <Link href={item.route}>
                         <a>
                           {" "}
                           <Card>
@@ -117,7 +217,19 @@ class Dashboard extends Component {
                                 {item.name}
                               </Typography>
                               <Typography variant="body1">
-                                Total Count -{" "}
+                                Total Count -
+                                {item.name === "Blood Bank"
+                                  ? this.state.categoryCount.BloodBank
+                                  : item.name === "Hospitals and Beds"
+                                  ? this.state.categoryCount.HospitalsAndBeds
+                                  : item.name === "Medications"
+                                  ? this.state.categoryCount.Medications
+                                  : item.name === "Mental Health Counseling"
+                                  ? this.state.categoryCount
+                                      .MentalHealthCounseling
+                                  : item.name === "Plasma Bank"
+                                  ? this.state.categoryCount.PlasmaBank
+                                  : "0"}
                               </Typography>
                               <Typography
                                 variant="subtitle2"
