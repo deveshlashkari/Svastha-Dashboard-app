@@ -217,7 +217,7 @@ class Dashboard extends Component {
                                 {item.name}
                               </Typography>
                               <Typography variant="body1">
-                                Total Count -
+                                Total Count :{" "}
                                 {item.name === "Blood Bank"
                                   ? this.state.categoryCount.BloodBank
                                   : item.name === "Hospitals and Beds"
@@ -248,7 +248,7 @@ class Dashboard extends Component {
                   );
                 })}
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <Link href="/crowdfunding">
                     <a>
                       {" "}
@@ -280,7 +280,7 @@ class Dashboard extends Component {
                       </Card>
                     </a>
                   </Link>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <Card>
                     <CardActionArea
@@ -314,7 +314,7 @@ class Dashboard extends Component {
                     </CardActionArea>
                   </Card>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <Card>
                     <CardContent
                       style={{
@@ -341,7 +341,7 @@ class Dashboard extends Component {
                       </Typography>
                     </CardContent>
                   </Card>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <Button
                     variant="contained"
