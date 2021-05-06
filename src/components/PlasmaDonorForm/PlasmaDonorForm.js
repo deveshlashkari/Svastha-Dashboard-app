@@ -200,6 +200,7 @@ export default function PlasmaDonorForm() {
   };
 
   const savePlasmaDonorDetails = () => {
+    let networkError = false;
     let body = {
       plasma_donor: {
         name: name,
@@ -241,9 +242,23 @@ export default function PlasmaDonorForm() {
         draggable: true,
         progress: undefined,
       });
-    } else {
+      networkError = true;
+    }
+    if (phone.length !== 10) {
+      toast.error("Phone number length should be 10", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      networkError = true;
+    }
+
+    if (!networkError) {
       savePlasmaDonor(body).then((data) => {
-        console.log(data);
         if (data.data.status === "success") {
           toast.success(data.data.message, {
             position: "top-center",

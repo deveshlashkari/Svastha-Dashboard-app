@@ -58,3 +58,13 @@ export const getPlasmaDonors = () => {
     console.error();
   }
 };
+
+export const getListOfEmergencyCategory = (category) => {
+  try {
+    return axios.get(
+      `${Constants.BASE_URL}/emergency_contacts?search_term=${category}`
+    );
+  } catch (error) {
+    console.error();
+  }
+};

@@ -30,7 +30,7 @@ const styles = {
   },
 };
 
-class Hospitals extends React.Component {
+class FoodServicesList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -113,7 +113,7 @@ class Hospitals extends React.Component {
                 variant="h3"
                 style={{ textAlign: "center", color: "#E24047" }}
               >
-                Hospitals and Beds
+                Food Services
               </Typography>
             </Grid>
           </Grid>
@@ -144,4 +144,4 @@ class Hospitals extends React.Component {
     );
   }
 }
-export default withStyles(styles)(withRouter(Hospitals));
+export default withStyles(styles)(withRouter(FoodServicesList));
