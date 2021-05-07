@@ -43,21 +43,53 @@ class FoodServicesList extends React.Component {
   componentDidMount = () => {
     getListOfEmergencyCategory("Mental Health Counseling").then((data) => {
       if (data.data.status === "success") {
-        let tempArr = [];
-        console.log(data);
-        data.data.emergency_contacts[0].details.map((_data) => {
-          tempArr.push({
-            id: _data.id,
-            name: _data.name,
-            contact: _data.contact,
-            addressLineOne: _data.address_line_1,
-            addressLineTwo: _data.address_line_2,
+        if (data.data.emergency_contacts) {
+          if (data.data.emergency_contacts.length !== 0) {
+            let tempArr = [];
+            console.log(data);
+            data.data.emergency_contacts[0].details.map((_data) => {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                contact: _data.contact,
+                addressLineOne: _data.address_line_1,
+                addressLineTwo: _data.address_line_2,
+              });
+            });
+            this.setState({
+              mentalHealthList: tempArr,
+              isLoading: false,
+            });
+          } else {
+            let body = [
+              {
+                id: "1",
+                name: "Akhilesh",
+                contact: "8989898989",
+                addressLineOne: "Indore",
+                addressLineTwo: "Indore",
+              },
+            ];
+            this.setState({
+              mentalHealthList: body,
+              isLoading: false,
+            });
+          }
+        } else {
+          let body = [
+            {
+              id: "1",
+              name: "Akhilesh",
+              contact: "8989898989",
+              addressLineOne: "Indore",
+              addressLineTwo: "Indore",
+            },
+          ];
+          this.setState({
+            mentalHealthList: body,
+            isLoading: false,
           });
-        });
-        this.setState({
-          mentalHealthList: tempArr,
-          isLoading: false,
-        });
+        }
       }
     });
   };
