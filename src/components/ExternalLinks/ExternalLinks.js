@@ -13,7 +13,7 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 export default class ExternalLinks extends Component {
   handleAboutUsClick = () => {
-    window.open("http://about.svastha.in/", "_blank");
+    window.open("http://svastha.in/about", "_blank");
   };
   render() {
     return (

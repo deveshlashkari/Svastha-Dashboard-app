@@ -41,7 +41,7 @@ class FuneralServicesList extends React.Component {
   }
 
   componentDidMount = () => {
-    getListOfEmergencyCategory("Mental Health Counseling").then((data) => {
+    getListOfEmergencyCategory("Funeral Services").then((data) => {
       if (data.data.status === "success") {
         let tempArr = [];
         console.log(data);
