@@ -49,7 +49,7 @@ class Dashboard extends Component {
       let tempArr = [];
       if (networkCallData.status === "success") {
         try {
-          networkCallData.emergency_categories.map((_data) => {
+          networkCallData.categories.map((_data) => {
             if (_data.name === "Plasma Bank") {
               tempArr.push({
                 id: _data.id,
