@@ -130,7 +130,7 @@ class Dashboard extends Component {
                 route: "/ambulance/all",
               });
             }
-            if (_data.name === "Food Services") {
+            if (_data.name === "Food/Meal Services") {
               tempArr.push({
                 id: _data.id,
                 name: _data.name,
@@ -138,7 +138,7 @@ class Dashboard extends Component {
                 route: "/foodservices/all",
               });
             }
-            if (_data.name === "Medications") {
+            if (_data.name === "Medications/Injections") {
               tempArr.push({
                 id: _data.id,
                 name: _data.name,
@@ -227,6 +227,9 @@ class Dashboard extends Component {
                                   : item.name === "Mental Health Counseling"
                                   ? this.state.categoryCount
                                       .MentalHealthCounseling
+                                    ? this.state.categoryCount
+                                        .MentalHealthCounseling
+                                    : "0"
                                   : item.name === "Plasma Bank"
                                   ? this.state.categoryCount.PlasmaBank
                                   : "0"}

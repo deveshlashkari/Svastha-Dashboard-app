@@ -328,7 +328,7 @@ class HospitalContactForm extends React.Component {
                     <MenuItem value="select">
                       <em>Please select</em>
                     </MenuItem>
-                    <MenuItem value="government">Government</MenuItem>
+                    <MenuItem value="Govt">Government</MenuItem>
                     <MenuItem value="Private">Private</MenuItem>
                   </Select>
                 </FormControl>
