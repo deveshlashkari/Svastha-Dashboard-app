@@ -51,9 +51,7 @@ export const saveEmergencyContact = (body) => {
 
 export const getPlasmaDonors = () => {
   try {
-    return axios.get(
-      `${Constants.BASE_URL}/get_plasma_donor_for_emergency_contact`
-    );
+    return axios.get(`${Constants.BASE_URL}/plasma_donors`);
   } catch (error) {
     console.error();
   }
