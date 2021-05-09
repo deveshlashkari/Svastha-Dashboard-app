@@ -13,9 +13,11 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import Link from "next/link";
+import Loader from "react-loader-spinner";
 
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import { getAllEmergencyCategory } from "../../../Services/API";
 
 const styles = {
   headingFont: {
@@ -62,9 +64,60 @@ const styles = {
 };
 
 class Contribute extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      categories: [],
+      isLoading: true,
+    };
+  }
+
+  componentDidMount = () => {
+    getAllEmergencyCategory().then((data) => {
+      let networkCallData = data.data;
+      let tempArr = [];
+      if (networkCallData.status === "success") {
+        try {
+          if (networkCallData.categories) {
+            if (networkCallData.categories.length !== 0) {
+              networkCallData.categories.map((_data) => {
+                tempArr.push({
+                  id: _data.id,
+                  formRoute: _data.form_route,
+                  name: _data.name,
+                  updatedAt: _data.updated_at,
+                });
+              });
+              this.setState({
+                categories: tempArr,
+                isLoading: false,
+              });
+            }
+          }
+        } catch (error) {
+          console.error();
+        }
+      }
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    return (
+    return this.state.isLoading ? (
+      <Loader
+        type="ThreeDots"
+        color="#E24047"
+        height={200}
+        width={200}
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+    ) : (
       <>
         <Navbar />
         <Container
@@ -74,368 +127,33 @@ class Contribute extends React.Component {
         >
           <CssBaseline />
           <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Link href="/plasmadonor/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.plasmaDonorText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography className={classes.headingFont}>
-                          Plasma Bank Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Link href="/oxygensupplier/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Oxygen for Homes Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/mentalhealth/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Mental Health Counselling Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/homeconsultation/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Home Consultation Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/hostel/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Hostel to Quarantine Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/funeralservices/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Funeral Services Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/bloodbank/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Blood Bank Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/testinganddiagnostics/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.oxygenText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Testing & Diaganostics Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/hospitals/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.medicineText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Hospitals & Beds Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/medicine/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.medicineText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Medicine Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/volunteer/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.volunteerText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Apply as a Volunteer
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to apply
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/ambulance/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.volunteerText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Ambulance Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/foodservices/new">
-                <a>
-                  <Card>
-                    <CardContent className={classes.cardRoot}>
-                      <div className={classes.volunteerText}>
-                        <AddBoxIcon
-                          style={{
-                            color: "#E24047",
-                            marginTop: "11px",
-                            marginBottom: "-9px",
-                          }}
-                        />
-                        <Typography
-                          className={classes.headingFont}
-                          style={{ color: "#E24047" }}
-                        >
-                          Food Services Form
-                        </Typography>
-                      </div>
-                      <span className={classes.cardSecondaryText}>
-                        Click here to add
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
-            </Grid>
+            {this.state.categories.map((data) => (
+              <Grid item xs={12}>
+                <Link href={data.formRoute}>
+                  <a>
+                    <Card>
+                      <CardContent className={classes.cardRoot}>
+                        <div className={classes.plasmaDonorText}>
+                          <AddBoxIcon
+                            style={{
+                              color: "#E24047",
+                              marginTop: "11px",
+                              marginBottom: "-9px",
+                            }}
+                          />
+                          <Typography className={classes.headingFont}>
+                            {data.name}
+                          </Typography>
+                        </div>
+                        <span className={classes.cardSecondaryText}>
+                          Click here to add
+                        </span>
+                      </CardContent>
+                    </Card>
+                  </a>
+                </Link>
+              </Grid>
+            ))}
           </Grid>
         </Container>
 

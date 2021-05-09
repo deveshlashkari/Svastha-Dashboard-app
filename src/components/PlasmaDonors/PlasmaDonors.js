@@ -19,6 +19,9 @@ import Loader from "react-loader-spinner";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { getPlasmaDonors } from "../../../Services/API";
 import { withRouter } from "next/router";
+
+import NoDataFound from "../NoDataFound";
+
 const styles = {
   table: {
     minWidth: 650,
@@ -44,26 +47,32 @@ class PlasmaDonors extends React.Component {
     getPlasmaDonors().then((data) => {
       if (data.data.status === "success") {
         let tempArr = [];
-        data.data.plasma_donors.map((_data) => {
-          tempArr.push({
-            id: _data.id,
-            name: _data.name,
-            email: _data.email,
-            contact: _data.contact,
-            address: _data.address,
-            age: _data.age,
-            gender: _data.gender,
-            bloodGroup: _data.blood_group,
-            aadharNumber: _data.adhar_card,
-            dateOfRecovery:
-              _data.date_of_recovery !== null ? _data.date_of_recovery : "N/A",
-            status: _data.status,
-          });
-        });
-        this.setState({
-          donorsList: tempArr,
-          isLoading: false,
-        });
+        if (data.data.plasma_donors) {
+          if (data.data.plasma_donors.length !== 0) {
+            data.data.plasma_donors.map((_data) => {
+              tempArr.push({
+                id: _data.id,
+                name: _data.name,
+                email: _data.email,
+                contact: _data.contact,
+                address: _data.address,
+                age: _data.age,
+                gender: _data.gender,
+                bloodGroup: _data.blood_group,
+                aadharNumber: _data.adhar_card,
+                dateOfRecovery:
+                  _data.date_of_recovery !== null
+                    ? _data.date_of_recovery
+                    : "N/A",
+                status: _data.status,
+              });
+            });
+            this.setState({
+              donorsList: tempArr,
+              isLoading: false,
+            });
+          }
+        }
       }
     });
   };
@@ -123,44 +132,50 @@ class PlasmaDonors extends React.Component {
               </Typography>
             </Grid>
           </Grid>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#E24047" }}>
-                <TableRow>
-                  <TableCell style={{ color: "white" }}>Name</TableCell>
-                  <TableCell style={{ color: "white" }}>Email</TableCell>
-                  <TableCell style={{ color: "white" }}>Contact</TableCell>
-                  <TableCell style={{ color: "white" }}>Address</TableCell>
-                  <TableCell style={{ color: "white" }}>Age</TableCell>
-                  <TableCell style={{ color: "white" }}>Gender</TableCell>
-                  <TableCell style={{ color: "white" }}>Blood Group</TableCell>
-                  <TableCell style={{ color: "white" }}>
-                    Aadhar Card Number
-                  </TableCell>
-                  <TableCell style={{ color: "white" }}>
-                    Date of Recovery
-                  </TableCell>
-                  <TableCell style={{ color: "white" }}>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.donorsList.map((data) => (
+          {this.state.donorsList.length !== 0 ? (
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#E24047" }}>
                   <TableRow>
-                    <TableCell>{data.name}</TableCell>
-                    <TableCell>{data.email}</TableCell>
-                    <TableCell>{data.contact}</TableCell>
-                    <TableCell>{data.address}</TableCell>
-                    <TableCell>{data.age}</TableCell>
-                    <TableCell>{data.gender}</TableCell>
-                    <TableCell>{data.bloodGroup}</TableCell>
-                    <TableCell>{data.aadharNumber}</TableCell>
-                    <TableCell>{data.dateOfRecovery}</TableCell>
-                    <TableCell>{data.status}</TableCell>
+                    <TableCell style={{ color: "white" }}>Name</TableCell>
+                    <TableCell style={{ color: "white" }}>Email</TableCell>
+                    <TableCell style={{ color: "white" }}>Contact</TableCell>
+                    <TableCell style={{ color: "white" }}>Address</TableCell>
+                    <TableCell style={{ color: "white" }}>Age</TableCell>
+                    <TableCell style={{ color: "white" }}>Gender</TableCell>
+                    <TableCell style={{ color: "white" }}>
+                      Blood Group
+                    </TableCell>
+                    <TableCell style={{ color: "white" }}>
+                      Aadhar Card Number
+                    </TableCell>
+                    <TableCell style={{ color: "white" }}>
+                      Date of Recovery
+                    </TableCell>
+                    <TableCell style={{ color: "white" }}>Status</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {this.state.donorsList.map((data) => (
+                    <TableRow>
+                      <TableCell>{data.name}</TableCell>
+                      <TableCell>{data.email}</TableCell>
+                      <TableCell>{data.contact}</TableCell>
+                      <TableCell>{data.address}</TableCell>
+                      <TableCell>{data.age}</TableCell>
+                      <TableCell>{data.gender}</TableCell>
+                      <TableCell>{data.bloodGroup}</TableCell>
+                      <TableCell>{data.aadharNumber}</TableCell>
+                      <TableCell>{data.dateOfRecovery}</TableCell>
+                      <TableCell>{data.status}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <NoDataFound />
+          )}
         </Container>
       </>
     );
