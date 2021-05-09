@@ -57,6 +57,7 @@ class Dashboard extends Component {
                   listRoute: _data.list_route,
                   name: _data.name,
                   updatedAt: _data.updated_at,
+                  count: _data.count,
                 });
               });
               this.setState({
@@ -125,7 +126,7 @@ class Dashboard extends Component {
                                 {item.name}
                               </Typography>
                               <Typography variant="body1">
-                                Total Count : {"1"}
+                                Total Count : {item.count}
                               </Typography>
                               <Typography
                                 variant="subtitle2"

@@ -19,6 +19,7 @@ import Loader from "react-loader-spinner";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { getListOfEmergencyCategory } from "../../../Services/API";
 import { withRouter } from "next/router";
+import NoDataFound from "../NoDataFound";
 const styles = {
   table: {
     minWidth: 650,
@@ -35,62 +36,37 @@ class FuneralServicesList extends React.Component {
     super(props);
 
     this.state = {
-      mentalHealthList: [],
+      funeralServicesData: [],
       isLoading: true,
     };
   }
 
   componentDidMount = () => {
     getListOfEmergencyCategory("Funeral Services").then((data) => {
-       if (data.data.status === "success") {
-         if (data.data.emergency_contacts) {
-           if (data.data.emergency_contacts.length !== 0) {
-             let tempArr = [];
-             console.log(data);
-             data.data.emergency_contacts[0].details.map((_data) => {
-               tempArr.push({
-                 id: _data.id,
-                 name: _data.name,
-                 contact: _data.contact,
-                 addressLineOne: _data.address_line_1,
-                 addressLineTwo: _data.address_line_2,
-               });
-             });
-             this.setState({
-               mentalHealthList: tempArr,
-               isLoading: false,
-             });
-           } else {
-             let body = [
-               {
-                 id: "1",
-                 name: "Akhilesh",
-                 contact: "8989898989",
-                 addressLineOne: "Indore",
-                 addressLineTwo: "Indore",
-               },
-             ];
-             this.setState({
-               mentalHealthList: body,
-               isLoading: false,
-             });
-           }
-         } else {
-           let body = [
-             {
-               id: "1",
-               name: "Akhilesh",
-               contact: "8989898989",
-               addressLineOne: "Indore",
-               addressLineTwo: "Indore",
-             },
-           ];
-           this.setState({
-             mentalHealthList: body,
-             isLoading: false,
-           });
-         }
-       }
+      let tempArr = [];
+      if (data.data.status === "success") {
+        if (data.data.emergency_contacts) {
+          if (data.data.emergency_contacts.length !== 0) {
+            if (data.data.emergency_contacts[0].details) {
+              if (data.data.emergency_contacts[0].details.length !== 0) {
+                data.data.emergency_contacts[0].details.map((_data) => {
+                  tempArr.push({
+                    id: _data.id,
+                    name: _data.name,
+                    contact: _data.contact,
+                    addressLineOne: _data.address_line_1,
+                    addressLineTwo: _data.address_line_2,
+                  });
+                });
+                this.setState({
+                  funeralServicesData: tempArr,
+                  isLoading: false,
+                });
+              }
+            }
+          }
+        }
+      }
     });
   };
 
@@ -149,28 +125,36 @@ class FuneralServicesList extends React.Component {
               </Typography>
             </Grid>
           </Grid>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#E24047" }}>
-                <TableRow>
-                  <TableCell style={{ color: "white" }}>Name</TableCell>
-                  <TableCell style={{ color: "white" }}>Contact</TableCell>
-                  <TableCell style={{ color: "white" }}>Address One</TableCell>
-                  <TableCell style={{ color: "white" }}>Address Two</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.mentalHealthList.map((data) => (
+          {this.state.funeralServicesData.length !== 0 ? (
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#E24047" }}>
                   <TableRow>
-                    <TableCell>{data.name}</TableCell>
-                    <TableCell>{data.contact}</TableCell>
-                    <TableCell>{data.addressLineOne}</TableCell>
-                    <TableCell>{data.addressLineTwo}</TableCell>
+                    <TableCell style={{ color: "white" }}>Name</TableCell>
+                    <TableCell style={{ color: "white" }}>Contact</TableCell>
+                    <TableCell style={{ color: "white" }}>
+                      Address One
+                    </TableCell>
+                    <TableCell style={{ color: "white" }}>
+                      Address Two
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {this.state.funeralServicesData.map((data) => (
+                    <TableRow>
+                      <TableCell>{data.name}</TableCell>
+                      <TableCell>{data.contact}</TableCell>
+                      <TableCell>{data.addressLineOne}</TableCell>
+                      <TableCell>{data.addressLineTwo}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <NoDataFound />
+          )}
         </Container>
       </>
     );
